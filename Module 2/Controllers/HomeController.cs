@@ -1,33 +1,60 @@
-﻿using System.Web.Mvc;
+﻿using Module_2.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 public class HomeController : Controller
 {
+    private List<Employee> employees; // Предполагается, что данные о сотрудниках хранятся в списке
+
+    public HomeController()
+    {
+        // Инициализация списка сотрудников
+        employees = new List<Employee>();
+    }
+
+    // Действие для отображения списка сотрудников
     public ActionResult Index()
     {
-        return View();
+        return View(employees);
     }
 
-    public ActionResult About()
+    // Действие для отображения деталей о сотруднике по идентификатору
+    public ActionResult Details(int id)
     {
-        ViewData["Message"] = "Your application description page.";
-        return View();
+        var employee = employees.FirstOrDefault(e => e.Id == id);
+        if (employee == null)
+        {
+            return HttpNotFound(); // Если сотрудник не найден, возвращаем ошибку 404
+        }
+
+        return View(employee);
     }
 
-    public ActionResult Contact()
+    // Действие для подсчета средней суммы зарплат сотрудников
+    public ActionResult CalculateAveragePayment()
     {
-        ViewData["Message"] = "Your contact page.";
-        return View();
+        decimal averagePayment = employees.Average(e => e.TotalPayment);
+
+        // Возвращаем среднюю сумму зарплаты
+        return PartialView("_AveragePayment", averagePayment);
     }
 
-    public ActionResult Privacy()
+    // Действие для проверки превышения суммы выплаты сотрудника
+    public ActionResult CheckPaymentExceeding(int employeeId)
     {
-        return View();
-    }
+        var employee = employees.FirstOrDefault(e => e.Id == employeeId);
+        if (employee == null)
+        {
+            return HttpNotFound(); // Если сотрудник не найден, возвращаем ошибку 404
+        }
 
-    // Другие действия контроллера...
+        decimal maximumPayment = 10000; // Максимальная сумма выплаты
 
-    public ActionResult Error()
-    {
-        return View();
+        bool paymentExceeded = employee.TotalPayment > maximumPayment;
+
+        // Возвращаем результат проверки
+        return Json(new { exceeded = paymentExceeded });
     }
 }
