@@ -4,9 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 
 
-
-
-
 public class EmployeeController : Controller
 {
     private List<Employee> employees; // Предполагается, что данные о сотрудниках хранятся в списке
@@ -18,18 +15,18 @@ public class EmployeeController : Controller
     }
 
     // Действие для отображения списка сотрудников
-    public IActionResult Index()
+    public ActionResult Index()
     {
         return View(employees);
     }
 
     // Действие для отображения деталей о сотруднике по идентификатору
-    public IActionResult Details(int id)
+    public ActionResult Details(int id)
     {
         var employee = employees.FirstOrDefault(e => e.Id == id);
         if (employee == null)
         {
-            return NotFound(); // Если сотрудник не найден, возвращаем ошибку 404
+            return HttpNotFound(); // Если сотрудник не найден, возвращаем ошибку 404
         }
 
         return View(employee);
@@ -142,7 +139,7 @@ public class EmployeeController : Controller
 //        };
 //    }
 
-//    public IActionResult Index()
+//    public ActionResult Index()
 //    {
 //        List<EmployeeViewModel> employeeViewModels = new List<EmployeeViewModel>();
 
@@ -167,7 +164,7 @@ public class EmployeeController : Controller
 //        return View(employeeViewModels);
 //    }
 
-//    public IActionResult Details(int id)
+//    public ActionResult Details(int id)
 //    {
 //        var employee = employees.FirstOrDefault(e => e.Id == id);
 //        if (employee == null)

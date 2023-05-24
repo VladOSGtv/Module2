@@ -1,6 +1,7 @@
 ﻿using Module_2.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 public class PositionController : Controller
 {
@@ -13,18 +14,18 @@ public class PositionController : Controller
     }
 
     // Действие для отображения списка должностей
-    public IActionResult Index()
+    public ActionResult Index()
     {
         return View(positions);
     }
 
     // Действие для отображения деталей о должности по идентификатору
-    public IActionResult Details(int id)
+    public ActionResult Details(int id)
     {
         var position = positions.FirstOrDefault(p => p.Id == id);
         if (position == null)
         {
-            return NotFound(); // Если должность не найдена, возвращаем ошибку 404
+            return HttpNotFound(); // Если должность не найдена, возвращаем ошибку 404
         }
 
         return View(position);

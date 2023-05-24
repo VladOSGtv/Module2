@@ -18,6 +18,31 @@ namespace Module_2
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            // Маршруты для других контроллеров
+
+            routes.MapRoute(
+                name: "Employee",
+                url: "Employee/{action}/{id}",
+                defaults: new { controller = "Employee", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Position",
+                url: "Position/{action}/{id}",
+                defaults: new { controller = "Position", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Allowance",
+                url: "Allowance/{action}/{id}",
+                defaults: new { controller = "Allowance", action = "Index", id = UrlParameter.Optional }
+            );
+        }
+
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new HandleErrorAttribute());
         }
     }
 }
